@@ -1,5 +1,5 @@
-const Certificate = require("../models/Certificate");
-const EnrolledIntern = require("../models/EnrolledIntern");
+const Certificate = require("../models/certificate");
+const EnrolledIntern = require("../models/enrolledintern");
 
 // 🔢 Calculate marks
 const calculateMarks = (enrolledIntern, studentId) => {

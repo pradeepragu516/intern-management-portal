@@ -1,6 +1,6 @@
-const Internship = require("../models/Internship");
-const EnrolledIntern = require("../models/EnrolledIntern");
-const Application = require("../models/Application");
+const Internship = require("../models/internship");
+const EnrolledIntern = require("../models/enrolledintern");
+const Application = require("../models/application");
 
 
 exports.createInternship = async (req, res) => {
@@ -178,6 +178,64 @@ exports.approveApplication = async (req, res) => {
       application
     });
 
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// List all internships (admin)
+exports.listInternships = async (req, res) => {
+  try {
+    const internships = await Internship.find().sort({ createdAt: -1 });
+    res.status(200).json({ internships });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// List internships posted by an employer
+exports.listByEmployer = async (req, res) => {
+  try {
+    const { employeeId } = req.params;
+    const internships = await Internship.find({ postedBy: employeeId }).sort({ createdAt: -1 });
+    res.status(200).json({ internships });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Get single internship
+exports.getInternship = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const internship = await Internship.findById(id);
+    if (!internship) return res.status(404).json({ message: "Not found" });
+    res.status(200).json({ internship });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Update internship
+exports.updateInternship = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const updated = await Internship.findByIdAndUpdate(id, req.body, { new: true });
+    if (!updated) return res.status(404).json({ message: "Not found" });
+    res.status(200).json({ internship: updated });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Delete internship
+exports.deleteInternship = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await Internship.findByIdAndDelete(id);
+    if (!deleted) return res.status(404).json({ message: "Not found" });
+    // Optionally remove enrolledIntern and applications here
+    res.status(200).json({ message: "Deleted" });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }

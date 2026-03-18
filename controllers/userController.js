@@ -1,4 +1,4 @@
-const User = require("../models/User");
+const User = require("../models/user");
 const bcrypt = require("bcryptjs");
 
 // CREATE ADMIN
@@ -33,50 +33,7 @@ exports.createAdmin = async (req, res) => {
 };
 
 // SIGNUP (student / employee)
-exports.signup = async (req, res) => {
-  try {
-    const { name, email, password, role, university, company } = req.body;
-
-    // role restriction
-    if (!["student", "employee"].includes(role)) {
-      return res.status(400).json({ message: "Invalid role" });
-    }
-
-    // check existing user
-    const existingUser = await User.findOne({ email });
-    if (existingUser) {
-      return res.status(400).json({ message: "Email already registered" });
-    }
-
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    const userData = {
-      name,
-      email,
-      password: hashedPassword,
-      role,
-      approved: false
-    };
-
-    if (role === "student") {
-      userData.university = university;
-    }
-
-    if (role === "employee") {
-      userData.company = company;
-    }
-
-    const user = await User.create(userData);
-
-    res.status(201).json({
-      message: "Signup successful. Await admin approval.",
-      user
-    });
-
-  } catch (err) {
-    res.status(500).json({ error: err.message });
-  }
-};
+// NOTE: signup is handled by authController.register to avoid duplication
 
 // APPROVE USER
 exports.approveUser = async (req, res) => {
@@ -111,7 +68,7 @@ exports.getPendingUsers = async (req, res) => {
   try {
     const users = await User.find({
       approved: false,
-      role: { $in: ["student", "employee"] }
+      role: { $in: ["student", "employer"] }
     });
 
     res.status(200).json(users);

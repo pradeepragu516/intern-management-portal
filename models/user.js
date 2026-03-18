@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
   },
   role: {
     type: String,
-    enum: ["admin", "employee", "student"],
+    enum: ["admin", "employer", "student"],
     required: true
   },
   university : {
@@ -37,7 +37,7 @@ const userSchema = new mongoose.Schema({
   company: {
     type: String,
     required: function() {
-      return this.role === "employee";
+      return this.role === "employer";
     }
   },
   approved: {
@@ -46,4 +46,4 @@ const userSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-module.exports = mongoose.model("User", userSchema);
+module.exports = mongoose.models.User || mongoose.model("User", userSchema);

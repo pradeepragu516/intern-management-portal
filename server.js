@@ -15,11 +15,13 @@ app.use(express.json());
 // Routes
 // =======================
 const userRoutes = require("./routes/userRoutes");
+const authRoutes = require("./routes/authRoutes");
 const internRoutes = require("./routes/internRoutes");
 const taskRoutes = require("./routes/taskRoutes");
 const certificateRoutes = require("./routes/certificateRoutes");
 
 app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/interns", internRoutes);
 app.use("/api/task", taskRoutes);
 app.use("/api/certificates", certificateRoutes);

@@ -5,8 +5,7 @@ const userController = require("../controllers/userController");
 // Admin
 router.post("/admin/create", userController.createAdmin);
 
-// Auth
-router.post("/signup", userController.signup);
+// Auth: signup handled via /api/auth/register (authController)
 
 // Admin actions
 router.put("/approve/:userId", userController.approveUser);

@@ -18,4 +18,19 @@ router.put(
   internshipController.approveApplication
 );
 
+// list all internships (admin)
+router.get("/", internshipController.listInternships);
+
+// list by employer
+router.get("/employee/:employeeId", internshipController.listByEmployer);
+
+// single
+router.get("/:id", internshipController.getInternship);
+
+// update
+router.put("/:id", internshipController.updateInternship);
+
+// delete
+router.delete("/:id", internshipController.deleteInternship);
+
 module.exports = router;

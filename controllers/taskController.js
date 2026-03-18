@@ -1,5 +1,5 @@
-const EnrolledIntern = require("../models/EnrolledIntern");
-const Internship = require("../models/Internship");
+const EnrolledIntern = require("../models/enrolledintern");
+const Internship = require("../models/internship");
 
 
 // ✅ 1. ASSIGN TASK (EMPLOYEE)

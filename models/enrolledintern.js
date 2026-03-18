@@ -104,4 +104,4 @@ const enrolledInternSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-module.exports = mongoose.model("EnrolledIntern", enrolledInternSchema);
+module.exports = mongoose.models.EnrolledIntern || mongoose.model("EnrolledIntern", enrolledInternSchema);
